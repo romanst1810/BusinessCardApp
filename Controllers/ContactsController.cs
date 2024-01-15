@@ -22,25 +22,24 @@ namespace BusinessCardApp.Controllers
         {
             return "test is ok";
         }
-
+        
         [HttpPost]
-        public async Task<bool> PostContact(Contact contact)
+        public async Task<IActionResult> PostContact(Contact contact)
         {
             if (!ModelState.IsValid)
             {
-                return false;
+                return BadRequest(ModelState);
             }
 
-            var result = true;
-           //var result = await _contactService.AddContact(contact);
+            var result = await _contactService.AddContact(contact);
 
             if (result)
             {
-                return true;
+                return Ok();
             }
             else
             {
-                return false;
+                return StatusCode(500, "An error occurred while handling your request.");
             }
         }
     }
